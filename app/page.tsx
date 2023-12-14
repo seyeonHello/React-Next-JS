@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import {Hero, CustomFilter, SearchBar, CarCard} from "@/components";
 import {fetchCars} from "@/utils";
+import {fuels, yearsOfProduction} from "@/constants";
 
 export default async function Home({searchParams}) {
     const allCars=await fetchCars({
@@ -10,7 +11,7 @@ export default async function Home({searchParams}) {
         limit: searchParams.limit || 10,
         model: searchParams.model || ""
     });
-    //console.log(allCars) //"use client" 안하면 server side에서 로그 찍힘
+   //console.log(searchParams.fuel,allCars) //"use client" 안하면 server side에서 로그 찍힘
     const isDataEmpty = !Array.isArray(allCars) || allCars.length<1 || !allCars
   return (
     <main className="overflow-hidden">
@@ -25,8 +26,8 @@ export default async function Home({searchParams}) {
                 <SearchBar />
 
                 <div className='home__filter-container'>
-                    <CustomFilter title='fuel' />
-                    <CustomFilter title='year' />
+                    <CustomFilter title='fuel' options={fuels}/>
+                    <CustomFilter title='year' options={yearsOfProduction}/>
                 </div>
             </div>
             {!isDataEmpty?(
